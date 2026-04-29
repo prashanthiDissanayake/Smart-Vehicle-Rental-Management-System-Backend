@@ -28,16 +28,3 @@ def add_payment():
     data["_id"] = str(result.inserted_id)
     return jsonify({"payment": data}), 201
 
-
-
-
-
-
-
-
-# DELETE
-@payment_routes.route("/payments/<id>", methods=["DELETE"])
-@token_required
-def delete_payment(id):
-    collection_payments.delete_one({"_id": ObjectId(id)})
-    return jsonify({"message": "Payment deleted"}), 200
