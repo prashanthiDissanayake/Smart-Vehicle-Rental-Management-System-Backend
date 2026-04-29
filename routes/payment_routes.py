@@ -183,3 +183,10 @@ def update_return_payment(booking_id):
         return jsonify({"message": "Payment not found"}), 404
     updated["_id"] = str(updated["_id"])
     return jsonify({"payment": updated}), 200
+
+# DELETE
+@payment_routes.route("/payments/<id>", methods=["DELETE"])
+@token_required
+def delete_payment(id):
+    collection_payments.delete_one({"_id": ObjectId(id)})
+    return jsonify({"message": "Payment deleted"}), 200
