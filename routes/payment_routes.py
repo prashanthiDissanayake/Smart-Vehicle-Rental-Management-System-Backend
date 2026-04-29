@@ -33,25 +33,7 @@ def add_payment():
 
 
 
-@payment_routes.route("/payments/return/<booking_id>", methods=["PUT"])
-@token_required
-def update_return_payment(booking_id):
-    data = request.get_json()
 
-    print("test123")
-
-    data.pop("_id", None)
-    data.pop("id", None)
-
-    collection_payments.update_one(
-        {"bookingId": booking_id},
-        {"$set": data}
-    )
-    updated = collection_payments.find_one({"bookingId": booking_id})
-    if not updated:
-        return jsonify({"message": "Payment not found"}), 404
-    updated["_id"] = str(updated["_id"])
-    return jsonify({"payment": updated}), 200
 
 # DELETE
 @payment_routes.route("/payments/<id>", methods=["DELETE"])
