@@ -17,6 +17,7 @@ def serialize_payment(p):
     p["_id"] = str(p["_id"])
     return p
 
+
 def send_payment_email(to_email, payment_data):
     try:
         msg = Message(
@@ -26,12 +27,12 @@ def send_payment_email(to_email, payment_data):
 
         msg.body = f"""
         Hello,
-        
+
         Your payment has been successfully.
-        
+
         Payment ID: {payment_data.get('_id')}
         Final Cost: {payment_data.get('finalCost')}
-    
+
         Thank you!
         """
 
@@ -129,7 +130,6 @@ def get_payments():
         result.append(payment_data)
 
     return jsonify(result), 200
-
 
 # UPDATE
 @payment_routes.route("/payments/<id>", methods=["PUT"])
