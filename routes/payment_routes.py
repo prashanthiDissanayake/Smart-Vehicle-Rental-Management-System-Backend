@@ -17,28 +17,7 @@ def serialize_payment(p):
     p["_id"] = str(p["_id"])
     return p
 
-def send_payment_email(to_email, payment_data):
-    try:
-        msg = Message(
-            subject="Payment Updated",
-            recipients=[to_email]
-        )
 
-        msg.body = f"""
-        Hello,
-        
-        Your payment has been successfully.
-        
-        Payment ID: {payment_data.get('_id')}
-        Final Cost: {payment_data.get('finalCost')}
-    
-        Thank you!
-        """
-
-        mail.send(msg)
-
-    except Exception as e:
-        print("Email error:", e)
 
 # CREATE
 @payment_routes.route("/payments", methods=["POST"])
