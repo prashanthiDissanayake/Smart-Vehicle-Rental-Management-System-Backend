@@ -130,3 +130,36 @@ def get_payments():
         result.append(payment_data)
 
     return jsonify(result), 200
+
+# UPDATE
+@payment_routes.route("/payments/<id>", methods=["PUT"])
+@token_required
+def update_payment(id):
+    data = request.get_json()
+    if "_id" in data:
+        del data["_id"]
+    if "id" in data:
+        del data["id"]
+    collection_payments.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": data}
+    )
+    updated = collection_payments.find_one({"_id": ObjectId(id)})
+    updated["_id"] = str(updated["_id"])
+
+    updated = serialize_payment(updated)
+
+    print(updated)
+
+    user = collection.find_one({
+        "_id": ObjectId(updated["userId"])})
+
+    print(user)
+    # if user:
+    #     user_email = user.get("email")
+    #
+    # if user_email:
+    #     send_payment_email(user_email, updated)
+
+
+    return jsonify({"payment": updated}), 200
